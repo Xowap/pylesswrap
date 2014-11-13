@@ -7,32 +7,36 @@
 # terms of the Do What The Fuck You Want To Public License, Version 2,
 # as published by Sam Hocevar. See the COPYING file for more details.
 
-from pipeline.compilers import CompilerBase
-from activeseed.lib.pylesswrap.django_finders import list_dirs
-from activeseed.lib.pylesswrap.less import Less
-from pipeline.conf import settings
+from __future__ import unicode_literals
 
 
-files_cache = {}
+try:
+    from pipeline.compilers import CompilerBase
+    from pipeline.conf import settings
+    from pylesswrap.django_finders import list_dirs
+    from pylesswrap.less import Less
 
+    files_cache = {}
 
-class PyLessWrapCompiler(CompilerBase):
-    output_extension = 'css'
+    class PyLessWrapCompiler(CompilerBase):
+        output_extension = 'css'
 
-    def __init__(self, *args, **kwargs):
-        super(PyLessWrapCompiler, self).__init__(*args, **kwargs)
-        self.less = Less(files_cache, list(set(list_dirs())), settings.PIPELINE_LESS_BINARY)
+        def __init__(self, *args, **kwargs):
+            super(PyLessWrapCompiler, self).__init__(*args, **kwargs)
+            self.less = Less(files_cache, list(set(list_dirs())), settings.PIPELINE_LESS_BINARY)
 
-    def match_file(self, filename):
-        return filename.lower().endswith('.less')
+        def match_file(self, filename):
+            return filename.lower().endswith('.less')
 
-    def compile_file(self, infile, outfile, outdated=False, force=False):
-        if outdated or force:
-            self.less.compile(infile, outfile)
+        def compile_file(self, infile, outfile, outdated=False, force=False):
+            if outdated or force:
+                self.less.compile(infile, outfile)
 
-    def is_outdated(self, infile, outfile):
-        try:
-            return self.less.mtime(self.storage.path(infile)) \
-                > self.storage.modified_time(outfile).timestamp()
-        except (OSError, NotImplementedError):
-            return True
+        def is_outdated(self, infile, outfile):
+            try:
+                return self.less.mtime(self.storage.path(infile)) \
+                    > self.storage.modified_time(outfile).timestamp()
+            except (OSError, NotImplementedError):
+                return True
+except ImportError:
+    pass

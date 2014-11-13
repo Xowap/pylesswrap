@@ -15,7 +15,7 @@ from os import path
 import os
 from shutil import rmtree
 from tempfile import mkdtemp
-from activeseed.lib.pylesswrap.less import execute_command, Less, LessError
+from pylesswrap.less import execute_command, Less, LessError
 
 
 TESTS_DIR = path.dirname(__file__)
@@ -122,7 +122,7 @@ class TestLessWrapper(TestCase):
 
         l = Less({})
 
-        from activeseed.lib.pylesswrap import less
+        from pylesswrap import less
         real_execute_command = less.execute_command
         less.execute_command = fake_execute_command
 
