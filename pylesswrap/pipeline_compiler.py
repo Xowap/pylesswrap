@@ -9,6 +9,8 @@
 
 from __future__ import unicode_literals
 
+import time
+
 
 try:
     from pipeline.compilers import CompilerBase
@@ -35,7 +37,7 @@ try:
         def is_outdated(self, infile, outfile):
             try:
                 return self.less.mtime(self.storage.path(infile)) \
-                    > self.storage.modified_time(outfile).timestamp()
+                    > time.mktime(self.storage.modified_time(outfile).utctimetuple())
             except (OSError, NotImplementedError):
                 return True
 except ImportError:
