@@ -1,0 +1,7 @@
+/.idea
+/dist
+/pylesswrap.egg-info
+*.pyc
+*.swp
+*.un~
+*.css
