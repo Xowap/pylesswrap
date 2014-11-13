@@ -18,7 +18,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='pylesswrap',
-    version='0.1',
+    version='0.1.1',
     packages=['pylesswrap'],
     include_package_data=True,
     license='WTFPL',
@@ -31,7 +31,7 @@ setup(
     classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
-        'Licence :: Other/Proprietary License',
+        'License :: Other/Proprietary License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.3',
