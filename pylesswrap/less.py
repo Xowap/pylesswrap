@@ -12,7 +12,7 @@ from __future__ import unicode_literals
 import subprocess
 import re
 import shlex
-from os import path
+from os import path, devnull
 
 
 COLOR_STRIP = re.compile(r"\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]")
@@ -66,7 +66,7 @@ class Less(object):
         out, err, ret = self.execute_command([infile, outfile], infile)
 
         if ret:
-            raise LessError('Could not compile "{}".\nReason:\n'.format(infile, err))
+            raise LessError('Could not compile "{}".\nReason:\n{}'.format(infile, err))
 
     def mtime(self, infile):
         cache_valid = infile in self.cache
@@ -83,7 +83,7 @@ class Less(object):
         return max(x[1] for x in self.cache[infile])
 
     def dependencies(self, infile):
-        out, err, ret = self.execute_command(['-M', infile, 'output'], infile)
+        out, err, ret = self.execute_command(['-M', infile, devnull], infile)
 
         if ret:
             raise LessError('Invalid input file "{}".\nReason:\n{}'.format(infile, err))
