@@ -37,7 +37,7 @@ try:
         def is_outdated(self, infile, outfile):
             try:
                 return self.less.mtime(self.storage.path(infile)) \
-                    > time.mktime(self.storage.modified_time(outfile).utctimetuple())
+                    > time.mktime(self.storage.modified_time(outfile).timetuple())
             except (OSError, NotImplementedError):
                 return True
 except ImportError:
